@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArtistController;
 use App\Http\Controllers\Auth\UserAuthController;
+use App\Http\Controllers\GalleryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,12 +27,18 @@ Route::post('/login', [UserAuthController::class, 'login']);
 Route::get('/artists', [ArtistController::class, 'index']);
 Route::get('/artists/{id}', [ArtistController::class, 'show']);
 
+Route::get('/galleries', [GalleryController::class, 'index']);
+Route::get('/galleries/{id}', [GalleryController::class, 'show']);
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function (Request $request) {
         return auth()->user();
     });
 
     Route::resource('/artists', ArtistController::class)
+        ->only(['store', 'update', 'destroy']);
+
+        Route::resource('/galleries', GalleryController::class)
         ->only(['store', 'update', 'destroy']);
 
     Route::post('/logout', [UserAuthController::class, 'logout']);
