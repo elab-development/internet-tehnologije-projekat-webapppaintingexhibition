@@ -4,6 +4,7 @@ use App\Http\Controllers\ArtistController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\ExhibitController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\PieceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,9 @@ Route::get('/galleries/{id}', [GalleryController::class, 'show']);
 Route::get('/exhibits', [ExhibitController::class, 'index']);
 Route::get('/exhibits/{id}', [ExhibitController::class, 'show']);
 
+Route::get('/pieces', [PieceController::class, 'index']);
+Route::get('/pieces/{id}', [PieceController::class, 'show']);
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function (Request $request) {
         return auth()->user();
@@ -46,6 +50,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         ->only(['store', 'update', 'destroy']);
 
         Route::resource('/exhibits', ExhibitController::class)
+        ->only(['store', 'update', 'destroy']);
+
+        Route::resource('/pieces', PieceController::class)
         ->only(['store', 'update', 'destroy']);
 
     Route::post('/logout', [UserAuthController::class, 'logout']);
