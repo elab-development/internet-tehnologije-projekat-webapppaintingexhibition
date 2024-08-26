@@ -26,6 +26,17 @@ class ArtistController extends Controller
         ]);
     }
 
+    public function indexPaginate(){
+       
+        $artists = Artist::paginate(3);
+        if(is_null($artists)){
+            return response()->json('No artists found.', 404);
+        }
+        return response()->json([
+            'artists' => new ArtistCollection($artists)
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

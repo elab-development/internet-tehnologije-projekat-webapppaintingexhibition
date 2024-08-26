@@ -159,7 +159,7 @@ return [
         /*
          * Package Service Providers...
          */
-        Maatwebsite\Excel\ExcelServiceProvider::class,
+        //comm Maatwebsite\Excel\ExcelServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -182,7 +182,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        'CSV' => Maatwebsite\Excel\Facades\Excel::class,
+    //comm    'CSV' => Maatwebsite\Excel\Facades\Excel::class,
     ])->toArray(),
 
 ];

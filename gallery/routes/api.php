@@ -27,6 +27,7 @@ Route::post('/register', [UserAuthController::class, 'register']);
 Route::post('/login', [UserAuthController::class, 'login']);
 
 Route::get('/artists', [ArtistController::class, 'index']);
+Route::get('/artists/pg', [ArtistController::class, 'indexPaginate']);
 Route::get('/artists/{id}', [ArtistController::class, 'show']);
 
 Route::get('/galleries', [GalleryController::class, 'index']);
