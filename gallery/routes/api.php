@@ -37,6 +37,7 @@ Route::get('/exhibits', [ExhibitController::class, 'index']);
 Route::get('/exhibits/{id}', [ExhibitController::class, 'show']);
 
 Route::get('/pieces', [PieceController::class, 'index']);
+Route::get('/pieces/pg', [PieceController::class, 'indexPaginate']);
 Route::get('/pieces/{id}', [PieceController::class, 'show']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {

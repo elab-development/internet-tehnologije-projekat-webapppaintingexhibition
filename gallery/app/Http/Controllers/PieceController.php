@@ -28,6 +28,17 @@ class PieceController extends Controller
         ]);
     }
 
+    public function indexPaginate(){
+        $pieces = Piece::paginate(10);
+        if(is_null($pieces) || $pieces->isEmpty()){
+            return response()->json('No pieces found.', 404);
+        }
+        return response()->json([
+            'pieces' => new PieceCollection($pieces)
+        ]);
+        
+    }
+
     /**
      * Show the form for creating a new resource.
      *

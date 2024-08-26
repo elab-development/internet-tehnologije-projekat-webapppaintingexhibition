@@ -29,7 +29,7 @@ class ArtistController extends Controller
     public function indexPaginate(){
        
         $artists = Artist::paginate(3);
-        if(is_null($artists)){
+        if(is_null($artists) || count($artists) === 0){
             return response()->json('No artists found.', 404);
         }
         return response()->json([
