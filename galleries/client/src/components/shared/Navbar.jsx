@@ -1,21 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { IoMdSearch } from 'react-icons/io';
 
 import Logo from '../../assets/logo.png';
+import { menuLinks } from '../../utils/navbarLinks';
 
 const Navbar = () => {
   return (
-    <div className='shadow-md bg-white dark:bg-gray-900 dark:text-white duration-200 relative z-40'>
-      <div className='bg-primary/40 py-2'>
+    <div className='shadow-md duration-200 relative z-40'>
+      <div className='bg-primary py-2'>
         <div className='container flex justify-between items-center'>
           <div>
-            <Link to='/' className='font-bold text-2xl sm:text-3xl flex gap-2'>
+            <Link to='/' className='font-bold text-2xl text-white sm:text-3xl flex items-center gap-2'>
               <img src={Logo} alt='logo' className='w-10' />
               Envision
             </Link>
           </div>
-          <div>
+          <div className='flex justify-between items-center gap-4'>
             <div className='relative group hidden sm:block'>
               <input
                 type='text'
@@ -28,6 +29,22 @@ const Navbar = () => {
         </div>
       </div>
       <div></div>
+
+      <div className='flex justify-center'>
+        <ul className='sm:flex hidden items-center gap-4'>
+          {menuLinks.map((item, idx) => (
+            <li key={idx}>
+              <NavLink
+                to={item.link}
+                className='inline-block px-4 py-2 hover:text-primary duration-200'
+              >
+                {item.name}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </div>
+
     </div>
   );
 };
