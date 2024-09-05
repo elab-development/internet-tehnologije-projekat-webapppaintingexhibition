@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Navbar from './components/shared/Navbar';
+import Footer from './components/shared/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
 import Exhibitis from './pages/Exhibits';
@@ -17,6 +18,7 @@ const App = () => {
         <Route path='/exhibits' element={<Exhibitis />} />
         <Route path='/login' element={<Login />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 };
