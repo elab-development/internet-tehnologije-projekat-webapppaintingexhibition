@@ -30,7 +30,7 @@ const Navbar = () => {
       </div>
       <div></div>
 
-      <div className='flex justify-center'>
+      <div className='flex justify-center bg-white'>
         <ul className='sm:flex hidden items-center gap-4'>
           {menuLinks.map((item, idx) => (
             <li key={idx}>
