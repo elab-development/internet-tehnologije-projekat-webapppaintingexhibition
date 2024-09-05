@@ -3,6 +3,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Hero from '../components/home/Hero';
 import ExhibitsList from '../components/exhibits/ExhibitsList';
+import TopExhibits from '../components/exhibits/TopExhibits';
 
 const Home = () => {
   useEffect(() => {
@@ -24,6 +25,7 @@ const Home = () => {
         paragraph='Explore the most popular upcoming exhibits and attend some'
         limit={5}
       />
+      <TopExhibits />
     </div>
   );
 };
