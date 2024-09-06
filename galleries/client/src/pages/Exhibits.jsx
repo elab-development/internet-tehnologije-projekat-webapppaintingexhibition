@@ -1,7 +1,12 @@
 import React from 'react';
+import ExhibitsList from '../components/exhibits/ExhibitsList';
 
 const Exhibits = () => {
-  return <div>Exhibits</div>;
+  return (
+    <div>
+      <ExhibitsList paginate={true} />
+    </div>
+  );
 };
 
 export default Exhibits;

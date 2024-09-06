@@ -1,11 +1,15 @@
-import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { IoMdSearch } from 'react-icons/io';
 
 import Logo from '../../assets/logo.png';
 import { menuLinks } from '../../utils/navbarLinks';
 
 const Navbar = () => {
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
+
   return (
     <div className='shadow-md duration-200 relative z-40'>
       <div className='bg-primary py-2'>
@@ -22,8 +26,14 @@ const Navbar = () => {
                 type='text'
                 placeholder='Search'
                 className='w-[200px] sm:w-[200px] group-hover:w-[300px] transition-all duration-300 rounded-full border border-gray-300 px-2 py-1 focus:outline-none focus:border-1 focus:border-primary'
+                value = {searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <IoMdSearch className='text-gray-500 group-hover:text-primary absolute top-1/2 -translate-y-1/2 right-3' />
+              <IoMdSearch 
+                onClick={()=>navigate(`/exhibits?search=${searchTerm}`)}
+                className='text-gray-500 group-hover:text-primary absolute top-1/2 -translate-y-1/2 right-3' 
+                />
+                
             </div>
           </div>
         </div>
