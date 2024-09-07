@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { IoMdSearch } from 'react-icons/io';
 
 import Logo from '../../assets/logo.png';
@@ -7,8 +7,17 @@ import { menuLinks } from '../../utils/navbarLinks';
 
 const Navbar = () => {
 
+  const [currentUser, setCurrentUser] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const user = localStorage.getItem('username');
+    if (user) {
+      setCurrentUser(user);
+    }
+  }, [location]);
 
   return (
     <div className='shadow-md duration-200 relative z-40'>
@@ -52,6 +61,27 @@ const Navbar = () => {
               </NavLink>
             </li>
           ))}
+          <li>
+            {currentUser ? (
+              <NavLink
+                to='/login'
+                className='inline-block px-4 py-2 hover:text-primary duration-200'
+                onClick={() => {
+                  localStorage.removeItem('username');
+                  setCurrentUser(null);
+                }}
+              >
+                Logout
+              </NavLink>
+            ) : (
+              <NavLink
+                to='/login'
+                className='inline-block px-4 py-2 hover:text-primary duration-200'
+              >
+                Sign In
+              </NavLink>
+            )}
+          </li>
         </ul>
       </div>
 

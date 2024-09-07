@@ -45,8 +45,8 @@ const Hero = () => {
       <div className='h-[700px] w-[700px] bg-primary absolute -top-1/2 right-30 rounded-3xl rotate-45 -z-9'></div>
       <div className='container pb-8 sm:pb-0'>
         <Slider {...settings}>
-          {imageList.map((image) => (
-            <div>
+          {imageList.map((image, idx) => (
+            <div key={idx}>
               <div className='grid grid-cols-1 sm:grid-cols-2'>
                 <div className='flex flex-col justify-center gap-4 pt-12 sm:pt-0 text-center sm:text-left order-2 sm:order-1 relative z-10'>
                   <h1 className='text-5xl sm:text-6xl lg:text-7xl font-bold'>

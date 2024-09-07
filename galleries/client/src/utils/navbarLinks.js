@@ -11,10 +11,6 @@ export const menuLinks = [
       name: 'Exhibits',
       link: '/exhibits',
     },
-    {
-      name: 'Sign In',
-      link: '/login',
-    },
   ];
 
   export const footerLinks = [
