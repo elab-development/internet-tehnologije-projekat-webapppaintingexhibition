@@ -20,16 +20,21 @@ const ExhibitsList = ({
   };
 
   useEffect(() => {
-    if (paginate && searchTerm) {
-      let filteredArray = initialExhibits.filter(
-        (exhibit) =>
-          exhibit.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          exhibit.artist.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          exhibit.category.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setFilteredExhibits(filteredArray);
+    if (paginate) {
+      if (searchTerm) {
+        let filteredArray = initialExhibits.filter(
+          (exhibit) =>
+            exhibit.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            exhibit.artist.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            exhibit.category.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredExhibits(filteredArray);
+      } else {
+        setFilteredExhibits(initialExhibits);
+      }
     }
   }, [searchTerm]);
+  
 
   useEffect(() => {
     setTotalPages(Math.ceil(filteredExhibits.length / pageSize));
