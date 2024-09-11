@@ -1,7 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { connectDB } from './database/connectDB.js';
+import authRoutes from './routes/auth.route.js';
 
 dotenv.config();
 
@@ -15,10 +17,13 @@ app.use(
   })
 );
 app.use(express.json());
+app.use(cookieParser());
 
 app.get('/api', (req, res) => {
   res.send('Server up and running');
 });
+
+app.use('/api/auth', authRoutes);
 
 app.listen(port, () => {
   connectDB();
