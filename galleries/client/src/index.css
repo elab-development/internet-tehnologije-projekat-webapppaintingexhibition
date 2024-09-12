@@ -11,3 +11,7 @@
   a.active {
     color: #fb923c;
   }
+
+  input[type='file'] {
+    display: none;
+  }

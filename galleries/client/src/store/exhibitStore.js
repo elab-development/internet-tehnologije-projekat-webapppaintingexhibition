@@ -10,7 +10,7 @@ export const useExhibitStore = create((set) => ({
   isLoading: false,
 
   // Create Exhibit
-  signup: async (data) => {
+  createExhibit: async (data) => {
     set({ isLoading: true, error: null });
     try {
       await axios.post(`${API_URL}`, data);

@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 
 import { useAuthStore } from './store/authStore';
 import LoadingSpinner from './components/shared/LoadingSpinner';
 import RedirectAuthenticatedUser from './components/auth/RedirectAuthenticatedUser';
 import ProtectedRoute from './components/auth/ProtectedRoute';
+import AdminRoute from './components/auth/AdminRoute';
 import AuthLayout from './components/auth/AuthLayout';
 import ProtectedLayout from './components/auth/ProtectedLayout';
 import Home from './pages/Home';
@@ -15,6 +17,7 @@ import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
 import About from './pages/About';
 import Exhibits from './pages/Exhibits';
+import CreateExhibit from './pages/admin/CreateExhibit';
 
 const App = () => {
   const { isCheckingAuth, checkAuth } = useAuthStore();
@@ -118,7 +121,22 @@ const App = () => {
           }
         />
         {/* PRIVATE PAGES END */}
+
+        {/* ADMIN PAGES START */}
+        <Route
+          path='/admin/create-exhibit'
+          element={
+            <AdminRoute>
+              <AuthLayout>
+                <CreateExhibit />
+              </AuthLayout>
+            </AdminRoute>
+          }
+        />
+        {/* ADMIN PAGES END */}
       </Routes>
+
+      <Toaster position='top-center' reverseOrder={false} />
     </BrowserRouter>
   );
 };

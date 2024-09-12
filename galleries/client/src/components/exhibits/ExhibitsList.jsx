@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { MoveUp, MoveDown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { MoveUp, MoveDown, Plus } from 'lucide-react';
 import { useSearchTerm } from '../../hooks/useSearchTerm.hook';
 import { useExhibitStore } from '../../store/exhibitStore';
+import { useAuthStore } from '../../store/authStore';
 import LoadingSpinnerSimple from '../shared/LoadingSpinnerSimple';
 
 const ExhibitsList = ({
@@ -19,6 +21,8 @@ const ExhibitsList = ({
   const searchTerm = useSearchTerm();
   const [orderDirection, setOrderDirection] = useState('asc');
   const { getUpcomingExhibits, isLoading, error } = useExhibitStore();
+  const { user } = useAuthStore();
+  const navigate = useNavigate();
 
   const handleChangeOrder = async () => {
     setOrderDirection(orderDirection === 'asc' ? 'desc' : 'asc');
@@ -93,27 +97,48 @@ const ExhibitsList = ({
             {paragraph}
           </p>
         </div>
-        {ordering && (
-          <div className='mb-10'>
-            <div
-              data-aos='fade-up'
-              className='cursor-pointer'
-              onClick={handleChangeOrder}
-            >
-              {orderDirection === 'asc' ? (
-                <div className='flex items-center gap-2 text-primary border-orange-500 border-2 rounded-md p-2 w-36 hover:bg-orange-500 hover:text-white'>
-                  <MoveUp size={20} />
-                  <span>Most Recent</span>
+        <div className='mb-10'>
+          <div
+            data-aos='fade-up'
+            className='cursor-pointer flex justify-between'
+          >
+            {ordering && (
+              <>
+                {orderDirection === 'asc' ? (
+                  <div
+                    onClick={handleChangeOrder}
+                    className='flex items-center gap-2 text-primary border-orange-500 border-2 rounded-md p-2 w-36 hover:bg-orange-500 hover:text-white'
+                  >
+                    <MoveUp size={20} />
+                    <span>Most Recent</span>
+                  </div>
+                ) : (
+                  <div
+                    onClick={handleChangeOrder}
+                    className='flex items-center gap-2 text-primary border-orange-500 border-2 rounded-md p-2 w-32 hover:bg-orange-500 hover:text-white'
+                  >
+                    <MoveDown size={20} />
+                    <span>Furthest</span>
+                  </div>
+                )}
+              </>
+            )}
+
+            {user?.isAdmin && (
+              <>
+                <div
+                  onClick={() => {
+                    navigate('/admin/create-exhibit');
+                  }}
+                  className='flex items-center gap-2 text-primary border-orange-500 border-2 rounded-md p-2 w-32 hover:bg-orange-500 hover:text-white'
+                >
+                  <Plus size={20} />
+                  <span>Add New</span>
                 </div>
-              ) : (
-                <div className='flex items-center gap-2 text-primary border-orange-500 border-2 rounded-md p-2 w-32 hover:bg-orange-500 hover:text-white'>
-                  <MoveDown size={20} />
-                  <span>Furthest</span>
-                </div>
-              )}
-            </div>
+              </>
+            )}
           </div>
-        )}
+        </div>
         <div>
           <div className='grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 place-items-center gap-5'>
           {isLoading ? (
