@@ -15,7 +15,6 @@ const Artworks = () => {
         setIsLoading(true);
 
         const res = await getArtworks();
-        console.log(res);
         setArtworks(res);
 
         setIsLoading(false);

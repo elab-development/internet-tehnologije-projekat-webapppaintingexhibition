@@ -17,6 +17,5 @@ export const getArtworks = async () => {
       'X-Xapp-Token': token,
     },
   });
-  console.log(res);
   return res.data._embedded.artworks;
 };
