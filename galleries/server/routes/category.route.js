@@ -9,7 +9,7 @@ router.post('/', verifyToken, categoryController.createCategory);
 
 // GET Endpoints
 router.get('/', categoryController.getCategories);
-router.get('/:id', verifyToken, categoryController.getCategory);
+router.get('/:id', categoryController.getCategory);
 
 // PUT Endpoints
 router.put('/:id', verifyToken, categoryController.updateCategory);
