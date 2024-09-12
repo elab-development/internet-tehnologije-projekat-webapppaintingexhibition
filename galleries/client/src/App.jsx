@@ -10,13 +10,14 @@ import AdminRoute from './components/auth/AdminRoute';
 import AuthLayout from './components/auth/AuthLayout';
 import ProtectedLayout from './components/auth/ProtectedLayout';
 import Home from './pages/Home';
+import About from './pages/About';
+import Exhibits from './pages/Exhibits';
+import ExhibitDetails from './pages/ExhibitDetails';
 import SignUp from './pages/auth/SignUp';
 import Login from './pages/auth/Login';
 import VerifyEmail from './pages/auth/VerifyEmail';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
-import About from './pages/About';
-import Exhibits from './pages/Exhibits';
 import CreateExhibit from './pages/admin/CreateExhibit';
 
 const App = () => {
@@ -44,6 +45,38 @@ const App = () => {
             </>
           }
         />
+
+<Route
+          path='/about'
+          element={
+            <>
+              <ProtectedLayout>
+                <About />
+              </ProtectedLayout>
+            </>
+          }
+        />
+        <Route
+          path='/exhibits'
+          element={
+            <>
+              <ProtectedLayout>
+                <Exhibits />
+              </ProtectedLayout>
+            </>
+          }
+        />
+        <Route
+          path='/exhibits/:id'
+          element={
+            <>
+              <ProtectedLayout>
+                <ExhibitDetails />
+              </ProtectedLayout>
+            </>
+          }
+        />
+
         {/* PUBLIC PAGES END */}
 
         {/* AUTH PAGES START */}
@@ -101,21 +134,11 @@ const App = () => {
 
         {/* PRIVATE PAGES START */}
         <Route
-          path='/about'
+          path='/tickets'
           element={
             <ProtectedRoute>
               <ProtectedLayout>
-                <About />
-              </ProtectedLayout>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path='/exhibits'
-          element={
-            <ProtectedRoute>
-              <ProtectedLayout>
-                <Exhibits />
+              <div>Tickets</div>
               </ProtectedLayout>
             </ProtectedRoute>
           }

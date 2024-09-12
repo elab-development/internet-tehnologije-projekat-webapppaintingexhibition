@@ -148,7 +148,7 @@ export const getExhibit = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const exhibit = await Exhibit.findById(id);
+    const exhibit = await Exhibit.findById(id).populate('category').exec();
     if (!exhibit) {
       res.status(404).json({
         success: false,

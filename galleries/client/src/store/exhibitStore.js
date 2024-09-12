@@ -56,4 +56,25 @@ export const useExhibitStore = create((set) => ({
       throw error;
     }
   },
+  
+  // Get Single Exhibit
+  getExhibit: async (id) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.get(`${API_URL}/${id}`);
+
+      set({
+        isLoading: false,
+      });
+      return response.data;
+    } catch (error) {
+      set({
+        error:
+          error.response.data.message ||
+          'Something went wrong while fetching single exhibit',
+        isLoading: false,
+      });
+      throw error;
+    }
+  },
 }));
