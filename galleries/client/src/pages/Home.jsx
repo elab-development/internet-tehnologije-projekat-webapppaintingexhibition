@@ -24,6 +24,7 @@ const Home = () => {
         heading='Upcoming Exhibits'
         paragraph='Explore the most popular upcoming exhibits and attend some'
         limit={5}
+        search={false}
       />
       <TopExhibits />
     </div>

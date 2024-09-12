@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { initialExhibits } from '../../utils/data';
+import { MoveUp, MoveDown } from 'lucide-react';
 import { useSearchTerm } from '../../hooks/useSearchTerm.hook';
+import { useExhibitStore } from '../../store/exhibitStore';
+import LoadingSpinnerSimple from '../shared/LoadingSpinnerSimple';
 
 const ExhibitsList = ({
   overhead,
@@ -8,38 +10,73 @@ const ExhibitsList = ({
   paragraph,
   limit,
   paginate = false,
+  search = false,
+  ordering = false
 }) => {
   const pageSize = limit ? limit : 10;
-  const [filteredExhibits, setFilteredExhibits] = useState(initialExhibits);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [filteredExhibits, setFilteredExhibits] = useState([]);
+  const [showMore, setShowMore] = useState(false);
   const searchTerm = useSearchTerm();
+  const [orderDirection, setOrderDirection] = useState('asc');
+  const { getUpcomingExhibits, isLoading, error } = useExhibitStore();
 
-  const changePage = (newPage) => {
-    setCurrentPage(newPage);
+  const handleChangeOrder = async () => {
+    setOrderDirection(orderDirection === 'asc' ? 'desc' : 'asc');
   };
 
-  useEffect(() => {
-    if (paginate) {
-      if (searchTerm) {
-        let filteredArray = initialExhibits.filter(
-          (exhibit) =>
-            exhibit.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            exhibit.artist.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            exhibit.category.toLowerCase().includes(searchTerm.toLowerCase())
+  const handleShowMore = async () => {
+    try {
+      let searchT = search ? searchTerm : '';
+      const response = await getUpcomingExhibits(
+        `${filteredExhibits.length}`,
+        `${pageSize}`,
+        orderDirection,
+        searchT
         );
-        setFilteredExhibits(filteredArray);
-      } else {
-        setFilteredExhibits(initialExhibits);
-      }
-    }
-  }, [searchTerm]);
+        let moreExhibits = response.exhibits;
+        setFilteredExhibits((prev) => [...prev, ...moreExhibits]);
+  
+        if (filteredExhibits?.length + moreExhibits.length < response.filtred) {
+          setShowMore(true);
+        } else {
+          setShowMore(false);
+        }
+      } catch (error) {
+        console.error(error);
+      } 
+    };
   
 
   useEffect(() => {
-    setTotalPages(Math.ceil(filteredExhibits.length / pageSize));
-    setCurrentPage(1);
-  }, [filteredExhibits]);
+    const fetchExhibits = async () => {
+      try {
+        let searchT = search ? searchTerm : '';
+        const response = await getUpcomingExhibits(
+          '0',
+          `${pageSize}`,
+          orderDirection,
+          searchT
+        );
+        setFilteredExhibits(response.exhibits);
+
+        if (response.exhibits?.length < response.filtred) {
+          setShowMore(true);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchExhibits();
+  }, [orderDirection, pageSize, searchTerm]);
+
+  if (error) {
+    return (
+      <div className='w-full text-red-500 font-bold flex items-center justify-center'>
+        {error}
+      </div>
+    );
+  }
 
 
   return (
@@ -56,56 +93,82 @@ const ExhibitsList = ({
             {paragraph}
           </p>
         </div>
-
+        {ordering && (
+          <div className='mb-10'>
+            <div
+              data-aos='fade-up'
+              className='cursor-pointer'
+              onClick={handleChangeOrder}
+            >
+              {orderDirection === 'asc' ? (
+                <div className='flex items-center gap-2 text-primary border-orange-500 border-2 rounded-md p-2 w-36 hover:bg-orange-500 hover:text-white'>
+                  <MoveUp size={20} />
+                  <span>Most Recent</span>
+                </div>
+              ) : (
+                <div className='flex items-center gap-2 text-primary border-orange-500 border-2 rounded-md p-2 w-32 hover:bg-orange-500 hover:text-white'>
+                  <MoveDown size={20} />
+                  <span>Furthest</span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
         <div>
           <div className='grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 place-items-center gap-5'>
-            {filteredExhibits?.length === 0 && <div>No results</div>}
-
-            {filteredExhibits.slice(currentPage*pageSize-pageSize, currentPage*pageSize).map((exhibit,idx) => (
-              <div
-                data-aos = 'fade-up'
-                data-aos-delay = {exhibit.delay}
-                key = {idx}
-                className='space-y-3'
-              >
-                <img 
-                  src={exhibit.image}
-                  alt={exhibit.title}
-                  className='h-[220px] w-[150px] object-cover rounded-md'
-                />
-                <div className='w-[150px]'>
-                <h3 className='font-semibold line-clamp-1'>
-                  {exhibit.title}
-                </h3>
-                <p className='text-sm text-gray-600'>{exhibit.artist}</p>
-                <div className='flex justify-between text-gray-400'>
-                  <p className='text-xs italic'>{exhibit.category}</p>
-                  <p className='text-xs'>
-                    {new Date(exhibit.date).toLocaleDateString()}
-                  </p>
+          {isLoading ? (
+              <LoadingSpinnerSimple />
+            ) : filteredExhibits.length > 0 ? (
+              <>
+                {filteredExhibits.map((exhibit, idx) => (
+                  <div
+                    data-aos='fade-up'
+                    data-aos-delay={200}
+                    key={idx}
+                    className='space-y-3'
+                  >
+                    <img
+                      src={exhibit.thumbnail}
+                      alt={exhibit.title}
+                      className='h-[220px] w-[150px] object-cover rounded-md'
+                    />
+                    <div className='w-[150px]'>
+                      <h3 className='font-semibold line-clamp-1'>
+                        {exhibit.title}
+                      </h3>
+                      <p className='text-sm text-gray-600'>{exhibit.artist}</p>
+                      <div className='flex justify-between text-gray-400'>
+                        <p className='text-xs italic'>
+                          {exhibit.category?.name}
+                        </p>
+                        <p className='text-xs'></p>
+                      </div>
+                      <div className='flex justify-between text-gray-400 text-xs'>
+                        <p>
+                          {new Date(exhibit.startDate).toLocaleDateString()}
+                        </p>
+                        <p>-</p>
+                        <p>{new Date(exhibit.endDate).toLocaleDateString()}</p>
+                      </div>
                 </div>
               </div>
-            </div>
-            
-            ))}
+                ))}
+                </>
+              ) : (
+                <div>No results</div>
+              )}
           </div>
         </div>
 
-        {paginate && (
+        {paginate && showMore && (
           <div className='flex items-center justify-center gap-4 mt-10'>
-            {Array(totalPages)
-              .fill()
-              .map((_, idx) => (
-                <div
-                  className={` text-white px-3 py-1 rounded-full cursor-pointer ${
-                    currentPage === idx + 1 ? 'bg-orange-700' : 'bg-primary'
-                  } hover:bg-orange-600`}
-                  key={idx}
-                  onClick={() => changePage(idx + 1)}
-                >
-                  {idx + 1}
-                </div>
-              ))}
+            <button
+              className='bg-orange-500 text-white rounded-md px-2 py-1 hover:bg-amber-500'
+              type='button'
+              onClick={handleShowMore}
+            >
+              Show More
+            </button>
           </div>
         )}
 

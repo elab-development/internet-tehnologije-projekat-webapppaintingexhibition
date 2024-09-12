@@ -77,9 +77,24 @@ export const getActiveExhibits = async (req, res) => {
       .populate('category')
       .exec();
 
+      const totalExhibits = await Exhibit.countDocuments();
+
+    const totalFilteredExhibits = await Exhibit.countDocuments({
+      ...(req.query.searchTerm && {
+        $or: [
+          { title: { $regex: req.query.searchTerm, $options: 'i' } },
+          { destination: { $regex: req.query.searchTerm, $options: 'i' } },
+          { artist: { $regex: req.query.searchTerm, $options: 'i' } },
+        ],
+      }),
+      endDate: { $gte: new Date() },
+    });
+
     res.status(200).json({
       success: true,
       exhibits,
+      total: totalExhibits,
+      filtred: totalFilteredExhibits,
     });
   } catch (error) {
     res.status(400).json({

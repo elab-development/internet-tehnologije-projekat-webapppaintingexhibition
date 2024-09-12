@@ -4,7 +4,7 @@ import ExhibitsList from '../components/exhibits/ExhibitsList';
 const Exhibits = () => {
   return (
     <div>
-      <ExhibitsList paginate={true} />
+       <ExhibitsList paginate={true} search={true} ordering={true} />
     </div>
   );
 };
