@@ -24,7 +24,7 @@ const Home = () => {
 
   return (
     <div>
-      {user.isAdmin ? (
+      {user?.isAdmin ? (
         <>
           <AdminDashboard />
         </>

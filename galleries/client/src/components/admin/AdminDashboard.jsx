@@ -1,5 +1,6 @@
 import React from 'react';
 import ExhibitsList from '../exhibits/ExhibitsList';
+import Categories from './Categories';
 
 const AdminDashboard = () => {
   return (
@@ -11,6 +12,7 @@ const AdminDashboard = () => {
         paginate={true}
         ordering={true}
       />
+      <Categories />
     </div>
   );
 };
