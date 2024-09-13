@@ -8,8 +8,9 @@ const router = express.Router();
 router.post('/', verifyToken, ticketController.createTicket);
 
 // GET Endpoints
-router.get('/', ticketController.getTickets);
-router.get('/:id', ticketController.getTicket);
+router.get('/', verifyToken, ticketController.getTickets);
+router.get('/mine', verifyToken, ticketController.getMyTickets);
+router.get('/:id', verifyToken, ticketController.getTicket);
 
 // PUT Endpoints
 router.put('/:id', verifyToken, ticketController.updateTicket);

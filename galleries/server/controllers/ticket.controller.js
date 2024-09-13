@@ -68,6 +68,31 @@ export const getTickets = async (req, res) => {
   }
 };
 
+// @desc        Get Logged In Users Tickets
+// @route       GET /api/tickets/mine
+// @access      Private
+export const getMyTickets = async (req, res) => {
+    try {
+      const tickets = await Ticket.find({ user: req.userId })
+        .sort({
+          purchaseDate: -1,
+        })
+        .populate('user')
+        .populate('exhibit')
+        .exec();
+  
+      res.status(200).json({
+        success: true,
+        tickets,
+      });
+    } catch (error) {
+      res.status(400).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  };  
+
 // @desc        Get Single Ticket
 // @route       GET /api/tickets/:id
 // @access      Private

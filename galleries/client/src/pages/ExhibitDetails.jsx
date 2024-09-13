@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { X } from 'lucide-react';
+import { Loader, X } from 'lucide-react';
 
 import { useExhibitStore } from '../store/exhibitStore';
 import { useAuthStore } from '../store/authStore';
@@ -71,9 +71,14 @@ const ExhibitDetails = () => {
           qrCode: qrCode,
         });
   
-        console.log(res);
+        if (res.data.success) {
+            toast.success('Ticket purchased successfully! Check your email');
+          } else {
+            toast.error('Something went wrong!');
+          }
       } catch (error) {
         console.error(error);
+        toast.error(ticketError);
       }
   };
 
@@ -158,8 +163,13 @@ const ExhibitDetails = () => {
                     hover:bg-white hover:text-orange-500 hover:border-orange-500 hover:border-2
                 '
                 onClick={handleGetTicket}
+                disabled={ticketLoading}
               >
-                Get Ticket
+                {ticketLoading ? (
+                  <Loader className='w-6 h-6 animate-spin mx-auto' />
+                ) : (
+                  'Get Ticket'
+                )}
               </button>
             </div>
           </div>

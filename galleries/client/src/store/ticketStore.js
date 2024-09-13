@@ -29,4 +29,47 @@ export const useTicketStore = create((set) => ({
       throw error;
     }
   },
+
+  // Get My Tickets
+  getMyTickets: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.get(`${API_URL}/mine`);
+
+      set({
+        isLoading: false,
+      });
+      return response;
+    } catch (error) {
+      set({
+        error:
+          error.response.data.message ||
+          'Something went wrong while fetching users tickets',
+        isLoading: false,
+      });
+      throw error;
+    }
+  },
+
+  // Delete Ticket
+  deleteTicket: async (id) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.delete(`${API_URL}/${id}`);
+
+      set({
+        isLoading: false,
+      });
+      return response;
+    } catch (error) {
+      set({
+        error:
+          error.response.data.message ||
+          'Something went wrong while deleting ticket',
+        isLoading: false,
+      });
+      throw error;
+    }
+  },
+
 }));

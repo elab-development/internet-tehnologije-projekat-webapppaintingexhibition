@@ -18,6 +18,7 @@ import Login from './pages/auth/Login';
 import VerifyEmail from './pages/auth/VerifyEmail';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
+import Profile from './pages/private/Profile';
 import CreateExhibit from './pages/admin/CreateExhibit';
 
 const App = () => {
@@ -134,11 +135,11 @@ const App = () => {
 
         {/* PRIVATE PAGES START */}
         <Route
-          path='/tickets'
+          path='/profile'
           element={
             <ProtectedRoute>
               <ProtectedLayout>
-              <div>Tickets</div>
+              <Profile />
               </ProtectedLayout>
             </ProtectedRoute>
           }
