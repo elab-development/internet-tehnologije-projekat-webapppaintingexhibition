@@ -5,16 +5,25 @@ import { X } from 'lucide-react';
 
 import { useExhibitStore } from '../store/exhibitStore';
 import { useAuthStore } from '../store/authStore';
+import { useTicketStore } from '../store/ticketStore';
+import { generateQRCode } from '../utils/qrCode';
 import LoadingSpinner from '../components/shared/LoadingSpinner';
 
 const ExhibitDetails = () => {
   const [exhibit, setExhibit] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+
   const { id } = useParams();
   const navigate = useNavigate();
+
   const { getExhibit, isLoading, error } = useExhibitStore();
   const { user } = useAuthStore();
+  const {
+    createTicket,
+    isLoading: ticketLoading,
+    error: ticketError,
+  } = useTicketStore();
 
   useEffect(() => {
     const fetchExhibit = async () => {
@@ -42,7 +51,30 @@ const ExhibitDetails = () => {
       return;
     }
 
-    // Create Ticket and send it to mail with QR code
+    // kreiranje karte i slanje mejl sa QR kodom
+    try {
+        const qrCode = await generateQRCode(
+          JSON.stringify({
+            exhibit: exhibit?.title,
+            startDate: new Date(exhibit?.startDate).toLocaleDateString(),
+            endDate: new Date(exhibit?.endDate).toLocaleDateString(),
+            artist: exhibit?.artist,
+            purchasedAt: new Date().toLocaleDateString(),
+            owner: user?.name,
+            ownerMail: user?.email,
+          })
+        );
+  
+        const res = await createTicket({
+          user: user,
+          exhibit: exhibit,
+          qrCode: qrCode,
+        });
+  
+        console.log(res);
+      } catch (error) {
+        console.error(error);
+      }
   };
 
   if (isLoading) return <LoadingSpinner />;

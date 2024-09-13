@@ -6,6 +6,7 @@ import { connectDB } from './database/connectDB.js';
 import authRoutes from './routes/auth.route.js';
 import categoryRoutes from './routes/category.route.js';
 import exhibitRoutes from './routes/exhibit.route.js';
+import ticketRoutes from './routes/ticket.route.js';
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.get('/api', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/exhibits', exhibitRoutes);
+app.use('/api/tickets', ticketRoutes);
 
 app.listen(port, () => {
   connectDB();

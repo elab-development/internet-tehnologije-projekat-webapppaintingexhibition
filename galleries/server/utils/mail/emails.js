@@ -124,3 +124,49 @@ export const sendResetSuccessEmail = async (email, name) => {
     throw new Error('Something went wrong while sending forgot password mail');
   }
 };
+
+export const sendTicketWithQRCode = async (
+  name,
+  email,
+  exhibitUrl,
+  exhibitTitle,
+  qrCode
+) => {
+  let mail = {
+    body: {
+      name,
+      intro: `Thank you for your interest in attending ${exhibitTitle} exhibit! Your ticket QR code is in the attachments.`,
+      action: {
+        instructions: 'Your chosen Exhibit:',
+        button: {
+          color: '#22BC66',
+          text: 'View Exhibit',
+          link: exhibitUrl,
+        },
+      },
+      outro: 'We hope you will enjoy it!',
+    },
+  };
+
+  let emailBody = MailGenerator.generate(mail);
+  let message = {
+    from: process.env.GMAIL_EMAIL,
+    to: email,
+    subject: 'Envision Tickets',
+    html: emailBody,
+    attachments: [
+      {
+        filename: 'ticket.png',
+        content: qrCode.split('base64,')[1],
+        encoding: 'base64',
+      },
+    ],
+  };
+
+  try {
+    await transporter.sendMail(message);
+  } catch (error) {
+    console.log(error);
+    throw new Error('Something went wrong while sending ticket mail');
+  }
+};
