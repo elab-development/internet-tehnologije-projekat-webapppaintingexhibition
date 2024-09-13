@@ -12,6 +12,7 @@ import ProtectedLayout from './components/auth/ProtectedLayout';
 import Home from './pages/Home';
 import About from './pages/About';
 import Exhibits from './pages/Exhibits';
+import Archive from './pages/Archive';
 import ExhibitDetails from './pages/ExhibitDetails';
 import SignUp from './pages/auth/SignUp';
 import Login from './pages/auth/Login';
@@ -63,6 +64,16 @@ const App = () => {
             <>
               <ProtectedLayout>
                 <Exhibits />
+              </ProtectedLayout>
+            </>
+          }
+        />
+        <Route
+          path='/exhibits/archive'
+          element={
+            <>
+              <ProtectedLayout>
+                <Archive />
               </ProtectedLayout>
             </>
           }

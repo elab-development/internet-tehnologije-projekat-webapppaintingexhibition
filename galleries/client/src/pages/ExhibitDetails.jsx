@@ -158,8 +158,9 @@ const ExhibitDetails = () => {
               <div className='py-4'></div>
               <p className='text-xs text-gray-600'>{exhibit?.description}</p>
 
-              <button
-                className='mt-10 w-full bg-orange-500 text-white rounded-md py-2 font-bold
+              {new Date(exhibit?.endDate) > new Date() && (
+                <button
+                  className='mt-10 w-full bg-orange-500 text-white rounded-md py-2 font-bold
                     hover:bg-white hover:text-orange-500 hover:border-orange-500 hover:border-2
                 '
                 onClick={handleGetTicket}
@@ -171,6 +172,7 @@ const ExhibitDetails = () => {
                   'Get Ticket'
                 )}
               </button>
+            )}
             </div>
           </div>
         </div>

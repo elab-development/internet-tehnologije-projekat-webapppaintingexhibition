@@ -56,7 +56,30 @@ export const useExhibitStore = create((set) => ({
       throw error;
     }
   },
-  
+
+  // Get Archived Exhibits
+  getArchivedExhibits: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.get(`${API_URL}/archive`);
+
+      set({
+        isLoading: false,
+      });
+
+      return response.data;
+    } catch (error) {
+      set({
+        error:
+          error.response.data.message ||
+          'Something went wrong while fetching archived exhibits',
+        isLoading: false,
+      });
+      throw error;
+    }
+  },
+
+
   // Get Single Exhibit
   getExhibit: async (id) => {
     set({ isLoading: true, error: null });

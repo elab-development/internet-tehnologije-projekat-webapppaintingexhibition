@@ -27,8 +27,8 @@ export const menuLinks = [
       link: '/exhibits',
     },
     {
-      name: 'More',
-      link: '/',
+      name: 'Archived',
+      link: '/exhibits/archive',
     },
   ];
   
