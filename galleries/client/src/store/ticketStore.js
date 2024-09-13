@@ -30,6 +30,26 @@ export const useTicketStore = create((set) => ({
     }
   },
 
+   // Get All Tickets
+   getAllTickets: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.get(`${API_URL}`);
+
+      set({
+        isLoading: false,
+      });
+      return response;
+    } catch (error) {
+      set({
+        error:
+          error.response.data.message ||
+          'Something went wrong while fetching all tickets',
+        isLoading: false,
+      });
+      throw error;
+    }
+  },
   // Get My Tickets
   getMyTickets: async () => {
     set({ isLoading: true, error: null });

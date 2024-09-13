@@ -1,6 +1,7 @@
 import React from 'react';
 import ExhibitsList from '../exhibits/ExhibitsList';
 import Categories from './Categories';
+import AdminTickets from './AdminTickets';
 
 const AdminDashboard = () => {
   return (
@@ -13,6 +14,7 @@ const AdminDashboard = () => {
         ordering={true}
       />
       <Categories />
+      <AdminTickets />
     </div>
   );
 };
