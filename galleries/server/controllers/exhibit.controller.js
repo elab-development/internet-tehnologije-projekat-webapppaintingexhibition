@@ -65,7 +65,7 @@ export const getActiveExhibits = async (req, res) => {
       ...(req.query.searchTerm && {
         $or: [
           { title: { $regex: req.query.searchTerm, $options: 'i' } },
-          { destination: { $regex: req.query.searchTerm, $options: 'i' } },
+          { description: { $regex: req.query.searchTerm, $options: 'i' } },
           { artist: { $regex: req.query.searchTerm, $options: 'i' } },
         ],
       }),
@@ -117,7 +117,7 @@ export const getArchivedExhibits = async (req, res) => {
       ...(req.query.searchTerm && {
         $or: [
           { title: { $regex: req.query.searchTerm, $options: 'i' } },
-          { destination: { $regex: req.query.searchTerm, $options: 'i' } },
+          { description: { $regex: req.query.searchTerm, $options: 'i' } },
           { artist: { $regex: req.query.searchTerm, $options: 'i' } },
         ],
       }),

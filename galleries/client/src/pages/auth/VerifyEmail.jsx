@@ -46,10 +46,9 @@ const VerifyEmail = () => {
 
     try {
       await verifyEmail(email, verificationCode);
-      navigate('/');
       toast.success('Email verified successfully');
+      navigate('/');
     } catch (error) {
-      toast.error(error.message);
       console.error(error);
     }
   };

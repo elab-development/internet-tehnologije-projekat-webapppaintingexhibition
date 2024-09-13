@@ -19,8 +19,9 @@ import Login from './pages/auth/Login';
 import VerifyEmail from './pages/auth/VerifyEmail';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
-import Profile from './pages/private/Profile';
 import CreateExhibit from './pages/admin/CreateExhibit';
+import Profile from './pages/private/Profile';
+import NotFound from './pages/private/NotFound';
 
 const App = () => {
   const { isCheckingAuth, checkAuth } = useAuthStore();
@@ -144,6 +145,19 @@ const App = () => {
         />
         {/* AUTH PAGES END */}
 
+{/* ADMIN PAGES START */}
+<Route
+          path='/admin/create-exhibit'
+          element={
+            <AdminRoute>
+              <AuthLayout>
+                <CreateExhibit />
+              </AuthLayout>
+            </AdminRoute>
+          }
+        />
+        {/* ADMIN PAGES END */}
+
         {/* PRIVATE PAGES START */}
         <Route
           path='/profile'
@@ -155,20 +169,16 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        {/* PRIVATE PAGES END */}
-
-        {/* ADMIN PAGES START */}
+       
         <Route
-          path='/admin/create-exhibit'
+          path='*'
           element={
-            <AdminRoute>
-              <AuthLayout>
-                <CreateExhibit />
-              </AuthLayout>
-            </AdminRoute>
+            <ProtectedLayout>
+              <NotFound />
+            </ProtectedLayout>
           }
         />
-        {/* ADMIN PAGES END */}
+        {/* PRIVATE PAGES END */}
       </Routes>
 
       <Toaster position='top-center' reverseOrder={false} />

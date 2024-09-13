@@ -134,7 +134,7 @@ export const login = async (req, res) => {
     }
 
     generateTokenAndSetCookie(res, user._id);
-    user.lastLogin = Date.now();
+    
 
     res.status(200).json({
       success: true,
@@ -211,7 +211,7 @@ export const forgotPassword = async (req, res) => {
 };
 
 // @desc        Reset Password (update users password)
-// @route       POST /api/auth/reset-password/:token
+// @route       PUT /api/auth/reset-password/:token
 // @access      Private
 export const resetPassword = async (req, res) => {
   const { token } = req.params;
